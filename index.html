@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Happy Birthday, Nayan! 💖</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#2b1038;--ink2:#47195a;--rose:#ff5d8f;--peach:#ffb199;--lav:#c9a7ff;--mint:#7be0c3;--cream:#fff3f0}
+*{box-sizing:border-box;margin:0}
+html,body{height:100%}
+body{font-family:"Baloo 2",system-ui,sans-serif;background:radial-gradient(circle at 80% 0,#6b1f6a,var(--ink) 62%);color:var(--cream);overflow-x:hidden}
+#hud{position:fixed;top:0;left:0;right:0;z-index:5;padding:10px 14px;display:flex;gap:10px;align-items:center;background:rgba(43,16,56,.88);backdrop-filter:blur(6px)}
+#hud b{color:var(--peach);white-space:nowrap}
+#bar{flex:1;height:12px;border-radius:9px;background:#0005;overflow:hidden}
+#fill{height:100%;width:0;background:linear-gradient(90deg,var(--lav),var(--rose));transition:width .5s}
+main{max-width:560px;margin:0 auto;padding:70px 18px 40px;min-height:100%;display:flex;flex-direction:column;justify-content:center}
+section{display:none;animation:in .4s}
+section.on{display:block}
+@keyframes in{from{opacity:0;transform:translateY(14px)}}
+h1{font-size:clamp(2.6rem,12vw,4.2rem);line-height:.95;font-weight:800;color:var(--peach);text-shadow:4px 4px 0 var(--rose)}
+h2{font-size:1.8rem;font-weight:800;color:var(--peach);margin-bottom:4px}
+.tag{color:var(--mint);font-weight:700;margin-bottom:6px}
+p{font-size:1.1rem;line-height:1.35;margin:10px 0}
+button{font:inherit;font-weight:800;font-size:1.1rem;border:0;border-radius:14px;padding:12px 20px;background:var(--peach);color:var(--ink);box-shadow:0 5px 0 #b86a52;cursor:pointer}
+button:active{transform:translateY(4px);box-shadow:0 1px 0 #b86a52}
+button:focus-visible{outline:3px solid var(--mint);outline-offset:2px}
+.alt{background:var(--mint);box-shadow:0 5px 0 #3f9c82}
+.opt{display:block;width:100%;text-align:left;margin:9px 0;background:var(--ink2);color:var(--cream);box-shadow:0 4px 0 #0006;border:2px solid #fff3}
+.opt.good{background:var(--mint);color:var(--ink);border-color:var(--mint)}
+.opt.bad{background:var(--rose);border-color:var(--rose)}
+.fb{min-height:2.4em;font-weight:700;color:var(--mint)}
+.hero svg{width:100%;height:auto;border-radius:18px;margin:14px 0;display:block}
+.card{background:var(--cream);color:var(--ink);border-radius:16px;padding:16px 18px;margin:14px 0;transform:rotate(-1deg);box-shadow:0 10px 30px #0008}
+.card p{font-size:1.12rem}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:14px 0}
+.tile{aspect-ratio:1;font-size:2rem;padding:0;background:var(--lav);box-shadow:0 4px 0 #0005}
+.tile.up{background:var(--cream)}
+#arena{position:relative;height:340px;border-radius:18px;background:#0004;border:2px dashed #fff4;overflow:hidden;touch-action:manipulation}
+.fh{position:absolute;bottom:-60px;font-size:2.3rem;background:none;border:0;box-shadow:none;padding:0;animation:up linear forwards}
+@keyframes up{to{transform:translateY(-440px)}}
+.scr{position:relative;height:170px;border-radius:16px;overflow:hidden;margin:12px 0}
+.under{position:absolute;inset:0;display:grid;place-items:center;text-align:center;background:var(--cream);color:var(--ink);padding:12px;font-size:1.2rem}
+.scr canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none;transition:opacity .6s}
+textarea{width:100%;min-height:80px;border-radius:12px;border:2px solid #fff4;background:var(--ink2);color:var(--cream);font:inherit;font-size:1.05rem;padding:10px;margin:6px 0 12px}
+.cake{font-size:5.5rem;text-align:center;cursor:pointer;user-select:none;margin:6px 0}
+.flame{display:inline-block;animation:fl .3s infinite alternate}
+@keyframes fl{to{transform:scale(1.15) rotate(5deg)}}
+.gal img{width:100%;border-radius:12px;margin:6px 0;display:block}
+#cf{position:fixed;inset:0;pointer-events:none;z-index:9}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<canvas id="cf"></canvas>
+<div id="hud" hidden><b id="lv">Level 1</b><div id="bar"><div id="fill"></div></div><b id="xp">0 XP</b></div>
+<main>
+
+<section id="s0" class="on">
+  <div class="tag">A game made only for you</div>
+  <h1>Happy<br>Birthday,<br><span id="nm"></span>! 💖</h1>
+  <div class="hero"></div>
+  <p>6 levels of friendship, fun and a little romance. You can’t lose, so just enjoy it! 🎮</p>
+  <button onclick="go(1)">Press Start</button>
+</section>
+
+<section id="s1"><div class="tag">Level 1 · Friendship Quiz</div><h2></h2><div class="opts"></div><div class="fb"></div></section>
+
+<section id="s2"><div class="tag">Level 2 · Romantic Vibes Quiz</div><h2></h2><div class="opts"></div><div class="fb"></div></section>
+
+<section id="s3">
+  <div class="tag">Level 3 · Memory Match</div>
+  <h2>Match the pairs 💞</h2>
+  <p>Moves: <b id="mv">0</b></p>
+  <div class="grid" id="grid"></div>
+  <div class="fb" id="mmsg"></div>
+  <button id="mnext" class="alt" hidden onclick="go(4)">Next level</button>
+</section>
+
+<section id="s4">
+  <div class="tag">Level 4 · Catch the Hearts</div>
+  <h2>Tap 💖, dodge 💔</h2>
+  <p>15 seconds. Score: <b id="sc2">0</b> · Time: <b id="tm">15</b>s</p>
+  <div id="arena"></div>
+  <p><button id="bstart" onclick="startHearts()">Start</button> <button id="hnext" class="alt" hidden onclick="go(5)">Next level</button></p>
+</section>
+
+<section id="s5">
+  <div class="tag">Level 5 · Scratch Card</div>
+  <h2>Scratch to reveal your surprise 🎁</h2>
+  <div class="scr"><div class="under" id="under"></div><canvas id="sc"></canvas></div>
+  <button id="snext" class="alt" hidden onclick="go(6)">Next level</button>
+</section>
+
+<section id="s6">
+  <div class="tag">Level 6 · Heart to Heart</div>
+  <h2>Boss level: be honest 💛</h2>
+  <p>Answer from the heart, then send your answers to me on WhatsApp.</p>
+  <div id="hq"></div>
+  <button onclick="sendAns()">Send answers on WhatsApp</button>
+  <p><button class="alt" onclick="go(7)">Done, final level</button></p>
+</section>
+
+<section id="s7">
+  <div class="tag">Final Level · Make a Wish</div>
+  <h2>Tap the cake to blow the candle</h2>
+  <div class="cake" id="cake" role="button" tabindex="0" aria-label="Blow the candle"><span class="flame">🔥</span><br>🎂</div>
+  <div id="fin" hidden>
+    <h1 style="font-size:2.6rem">Level Cleared!</h1>
+    <div class="hero"></div>
+    <div class="card" id="wish"></div>
+    <div class="gal" id="gal"></div>
+    <p>Total score: <b id="fx"></b> XP 🏆</p>
+    <p><button onclick="sendAns()">Send my answers to Mayur</button> <button class="alt" onclick="pop(220)">More confetti</button></p>
+  </div>
+</section>
+
+</main>
+<script>
+/* ============ EDIT THIS PART ============ */
+const FRIEND = "Nayan";
+const FROM = "Mayur";
+const WHATSAPP = "919890407120";            // answers are sent here
+const GIFT = "A treat of your choice 🍰";
+const SECRET = "Psst… you’re one of my favourite people. 💖";
+const WISH = [
+ "Happy Birthday, Nayan! 🎉 वाढदिवसाच्या खूप खूप शुभेच्छा!",
+ "Thank you for the laughs, the talks and for being such a bright and kind friend. May this year bring you all the happiness, success and surprises you deserve.",
+ "Keep smiling, keep shining, and never change. 💖",
+ "— " + FROM
+];
+/* Optional: add your own photos here as image links, e.g. ["https://.../pic.jpg"] */
+const PHOTOS = [];
+
+/* ans = index of the right option (0 = first). Change these to Nayan's real answers. */
+const FQ = [
+  {q:"Nayan’s all-time comfort food?", o:["Pani puri","Pizza","Chocolate","Maggi"], ans:2},
+  {q:"Her favourite way to spend a weekend?", o:["Movies","Shopping","Sleeping","Travelling"], ans:2},
+  {q:"Who texts back faster?", o:["Nayan","Mayur","Both","Neither, we call"], ans:3}
+];
+/* Romantic vibes quiz: no right answers. Each option adds a vote to a type below (same order). */
+const VQ = [
+  {q:"Your perfect date?", o:["Sunset drive","Cosy cafe","Movie night","Surprise adventure"]},
+  {q:"Pick a first-date outfit mood", o:["Soft and dreamy","Classy and cute","Comfy and cool","Bold and sporty"]},
+  {q:"Your love language?", o:["Sweet words","Quality time","Gifts and surprises","Doing things together"]}
+];
+const VIBES = [
+ {n:"Sunset Dreamer 🌅", d:"You’re a hopeless romantic who believes in slow drives, golden hour and love notes."},
+ {n:"Cafe Poet ☕", d:"You fall for deep talks over chai or coffee. Your heart is soft and your stories are the best."},
+ {n:"Rom-Com Queen 🎬", d:"Life is your movie and you’re the lead. Fun, dramatic and impossible to forget!"},
+ {n:"Adventure Heart 🎡", d:"You want a love that goes on road trips, tries new things and laughs at everything."}
+];
+const HEART = [
+  "One thing you love about our friendship?",
+  "Your dream birthday plan?",
+  "One wish for this year?"
+];
+/* ============ END EDIT ============ */
+
+const $=id=>document.getElementById(id);
+let xp=0, cur=0; const RES=[]; const MAXXP=240;
+$("nm").textContent=FRIEND;
+const ART=`<svg viewBox="0 0 400 190" role="img" aria-label="Sunset with hearts"><defs><linearGradient id="sk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6b1f6a"/><stop offset=".55" stop-color="#ff5d8f"/><stop offset="1" stop-color="#ffb199"/></linearGradient></defs><rect width="400" height="190" fill="url(#sk)"/><g fill="#fff" opacity=".8"><circle cx="40" cy="30" r="2"/><circle cx="120" cy="18" r="1.6"/><circle cx="300" cy="26" r="2"/><circle cx="360" cy="60" r="1.5"/><circle cx="210" cy="40" r="1.5"/></g><circle cx="200" cy="120" r="46" fill="#ffe3a8"/><path d="M0 150 Q90 105 200 140 T400 130 V190 H0Z" fill="#47195a"/><path d="M0 170 Q120 135 230 165 T400 158 V190 H0Z" fill="#2b1038"/><text x="70" y="85" font-size="26">💖</text><text x="300" y="95" font-size="22">✨</text><text x="330" y="45" font-size="24">💕</text><text x="30" y="140" font-size="20">🌸</text></svg>`;
+document.querySelectorAll(".hero").forEach(h=>h.innerHTML=ART);
+
+function addXP(n){xp+=n;$("xp").textContent=xp+" XP";$("fill").style.width=Math.min(100,xp/MAXXP*100)+"%"}
+const inited={};
+function go(n){
+  cur=n;
+  document.querySelectorAll("section").forEach(s=>s.classList.remove("on"));
+  $("s"+n).classList.add("on");
+  $("hud").hidden=false;
+  $("lv").textContent=n<7?"Level "+n:"Final";
+  window.scrollTo(0,0);
+  if(!inited[n]){
+    inited[n]=1;
+    if(n===1)quiz("s1",FQ,false);
+    if(n===2)quiz("s2",VQ,true);
+    if(n===3)initMatch();
+    if(n===5)initScratch();
+    if(n===6)buildHeart();
+  }
+}
+
+/* Quizzes (friendship + vibes) */
+function quiz(sec,list,vibe){
+  const el=$(sec),h=el.querySelector("h2"),o=el.querySelector(".opts"),f=el.querySelector(".fb");
+  let i=0; const votes=[];
+  (function show(){
+    const q=list[i]; h.textContent=q.q; f.textContent=""; o.innerHTML="";
+    q.o.forEach((t,k)=>{
+      const b=document.createElement("button"); b.className="opt"; b.textContent=t;
+      b.onclick=()=>{
+        [...o.children].forEach(x=>x.disabled=true);
+        if(vibe){votes.push(k); b.classList.add("good"); f.textContent="Love that choice ✨ +10 XP"; addXP(10)}
+        else{
+          const ok=k===q.ans; b.classList.add(ok?"good":"bad"); o.children[q.ans].classList.add("good");
+          f.textContent=ok?"Correct! You know her well. +20 XP":"Haha, close! It was "+q.o[q.ans]+". +10 XP";
+          addXP(ok?20:10); RES.push(q.q+" → "+t+(ok?" ✅":" ❌")); if(ok)pop(40);
+        }
+        setTimeout(()=>{i++; i<list.length?show():(vibe?vibeDone(votes):go(cur+1))},1600);
+      };
+      o.appendChild(b);
+    });
+  })();
+  function vibeDone(v){
+    const c=[0,0,0,0]; v.forEach(k=>c[k]++);
+    const t=VIBES[c.indexOf(Math.max(...c))];
+    RES.push("Romantic vibe → "+t.n);
+    h.textContent="You are: "+t.n; f.textContent="";
+    o.innerHTML=`<div class="card"><p>${t.d}</p></div><button class="alt" onclick="go(3)">Next level</button>`;
+    addXP(20); pop(120);
+  }
+}
+
+/* Level 3: memory match */
+function initMatch(){
+  const g=$("grid"), em=["❤️","🌹","🎂","🍫","🎈","🌙"];
+  const deck=[...em,...em].sort(()=>Math.random()-.5);
+  let first=null, busy=false, found=0, moves=0;
+  deck.forEach(e=>{
+    const b=document.createElement("button"); b.className="tile"; b.setAttribute("aria-label","card");
+    b.onclick=()=>{
+      if(busy||b.classList.contains("up"))return;
+      b.classList.add("up"); b.textContent=e;
+      if(!first){first=b;return}
+      moves++; $("mv").textContent=moves;
+      if(first.textContent===e){
+        first=null; found++;
+        if(found===6){const gain=Math.max(10,40-moves*2); addXP(gain); RES.push("Memory match → "+moves+" moves"); $("mmsg").textContent="All matched in "+moves+" moves! +"+gain+" XP 💞"; $("mnext").hidden=false; pop(100)}
+      }else{
+        busy=true; const a=first; first=null;
+        setTimeout(()=>{a.classList.remove("up");a.textContent="";b.classList.remove("up");b.textContent="";busy=false},700);
+      }
+    };
+    g.appendChild(b);
+  });
+}
+
+/* Level 4: catch hearts */
+let running=false;
+function startHearts(){
+  if(running)return; running=true;
+  let t=15, sc=0; $("sc2").textContent=0; $("tm").textContent=t; $("bstart").disabled=true;
+  const arena=$("arena"); arena.innerHTML="";
+  const spawn=setInterval(()=>{
+    const bad=Math.random()<.25, b=document.createElement("button");
+    b.className="fh"; b.textContent=bad?"💔":"💖"; b.setAttribute("aria-label",bad?"broken heart":"heart");
+    b.style.left=Math.random()*(arena.clientWidth-50)+"px";
+    b.style.animationDuration=(2.4+Math.random()*1.8)+"s";
+    b.onclick=()=>{sc=Math.max(0,sc+(bad?-2:1)); $("sc2").textContent=sc; b.remove(); if(!bad)pop(8)};
+    b.onanimationend=()=>b.remove();
+    arena.appendChild(b);
+  },420);
+  const clock=setInterval(()=>{
+    t--; $("tm").textContent=t;
+    if(t<=0){
+      clearInterval(clock); clearInterval(spawn); running=false; arena.innerHTML="";
+      const gain=Math.min(30,sc*3); addXP(gain); RES.push("Catch the hearts → "+sc);
+      arena.innerHTML=`<p style="padding:50px 20px;text-align:center;font-size:1.4rem">You caught <b>${sc}</b> hearts! +${gain} XP 💖</p>`;
+      $("hnext").hidden=false;
+    }
+  },1000);
+}
+
+/* Level 5: scratch card */
+function initScratch(){
+  $("under").innerHTML=`🎁 Your gift:<br><b>${GIFT}</b><br><small>${SECRET}</small>`;
+  const c=$("sc"), x=c.getContext("2d"), w=c.parentElement;
+  c.width=w.clientWidth; c.height=w.clientHeight;
+  const g=x.createLinearGradient(0,0,c.width,c.height); g.addColorStop(0,"#c9a7ff"); g.addColorStop(1,"#ff5d8f");
+  x.fillStyle=g; x.fillRect(0,0,c.width,c.height);
+  x.fillStyle="#fff"; x.font="800 24px 'Baloo 2',sans-serif"; x.textAlign="center"; x.fillText("Scratch here ✨",c.width/2,c.height/2+8);
+  let down=false, done=false;
+  const dot=e=>{const r=c.getBoundingClientRect(); x.globalCompositeOperation="destination-out"; x.beginPath(); x.arc(e.clientX-r.left,e.clientY-r.top,24,0,7); x.fill()};
+  c.onpointerdown=e=>{down=true; c.setPointerCapture(e.pointerId); dot(e)};
+  c.onpointermove=e=>{if(down)dot(e)};
+  c.onpointerup=()=>{
+    down=false; if(done)return;
+    const d=x.getImageData(0,0,c.width,c.height).data; let n=0,t=0;
+    for(let i=3;i<d.length;i+=64){t++; if(d[i]===0)n++}
+    if(n/t>.45){done=true; c.style.opacity=0; c.style.pointerEvents="none"; addXP(30); pop(120); $("snext").hidden=false}
+  };
+}
+
+/* Level 6: heart to heart */
+function buildHeart(){
+  HEART.forEach((q,i)=>{
+    const l=document.createElement("label");
+    l.innerHTML=`<b>${q}</b><textarea id="h${i}" placeholder="Type here..."></textarea>`;
+    $("hq").appendChild(l);
+  });
+}
+let sent=false;
+function sendAns(){
+  const lines=HEART.map((q,i)=>{const t=$("h"+i); return q+"\n"+((t&&t.value.trim())||"(skipped)")}).join("\n\n");
+  const msg=`${FRIEND}’s birthday game results 🎮\n\n${RES.join("\n")}\n\nHeart to Heart:\n\n${lines}`;
+  if(!sent){addXP(30); sent=true}
+  window.open("https://wa.me/"+WHATSAPP+"?text="+encodeURIComponent(msg),"_blank");
+}
+
+/* Final */
+function blow(){
+  if(!$("fin").hidden)return;
+  $("cake").innerHTML="🎂<br>✨"; addXP(30);
+  $("fin").hidden=false;
+  $("wish").innerHTML=WISH.map(l=>`<p>${l}</p>`).join("");
+  $("gal").innerHTML=PHOTOS.map(s=>`<img src="${s}" alt="">`).join("");
+  $("fx").textContent=xp; pop(220);
+}
+$("cake").onclick=blow;
+$("cake").onkeydown=e=>{if(e.key==="Enter"||e.key===" ")blow()};
+
+/* Confetti */
+const cv=$("cf"), cx=cv.getContext("2d"); let parts=[];
+function size(){cv.width=innerWidth;cv.height=innerHeight}
+addEventListener("resize",size); size();
+function pop(n){
+  const c=["#ff5d8f","#ffb199","#c9a7ff","#7be0c3","#fff3f0"];
+  for(let i=0;i<n;i++)parts.push({x:innerWidth/2,y:innerHeight*0.45,vx:(Math.random()-.5)*12,vy:-Math.random()*12-3,s:5+Math.random()*6,c:c[i%c.length],l:90});
+  if(parts.length===n)tick();
+}
+function tick(){
+  cx.clearRect(0,0,cv.width,cv.height);
+  parts=parts.filter(p=>p.l>0);
+  parts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=.35;p.l--;cx.fillStyle=p.c;cx.fillRect(p.x,p.y,p.s,p.s)});
+  if(parts.length)requestAnimationFrame(tick);
+}
+</script>
+</body>
+</html>
